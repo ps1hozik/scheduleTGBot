@@ -50,14 +50,13 @@ def print_lessons(lessons: list, day: str, date: str):
         num = v["number"]
         f_lessons += f"<i>№{num} {time}</i>\n\n"
         f_lessons += "<b>"
-        f_lessons += f"{space}{lesson_name}\n" if lesson_name != " " else f"{space}\n"
+        f_lessons += f"{space}{lesson_name}\n" if lesson_name != " " else ""
         f_lessons += f"{space*2}{lesson_teacher}\n" if lesson_teacher != " " else ""
         f_lessons += (
-            f"{space*2}{lesson_auditorium}\n"
+            f"{space*2}{lesson_auditorium}\n\n</b>"
             if lesson_auditorium != " "
-            else f"{space}\n"
+            else "</b>"
         )
-        f_lessons += "\n</b>"
     if f_lessons != f"{day} ({date})\n\n":
         return f_lessons
 
