@@ -53,7 +53,7 @@ def print_lessons(lessons: list, day: str, date: str):
         f_lessons += f"{space}{lesson_name}\n" if lesson_name != " " else f"{space}\n"
         f_lessons += f"{space*2}{lesson_teacher}\n" if lesson_teacher != " " else ""
         f_lessons += (
-            f"{space*2}{lesson_auditorium}\n\n"
+            f"{space*2}{lesson_auditorium}\n"
             if lesson_auditorium != " "
             else f"{space}\n"
         )
