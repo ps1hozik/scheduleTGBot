@@ -16,10 +16,6 @@ load_dotenv()
 from routers import router as main_router
 
 
-paths = ["schedule"]
-for path in paths:
-    sys.path.insert(1, os.path.join(sys.path[0], path))
-
 
 async def main():
     dp = Dispatcher()
