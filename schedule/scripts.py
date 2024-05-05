@@ -13,7 +13,7 @@ def get_one_day(user_id: int, date: str):
     user = collection_user.find_one({"user_id": user_id})
     group = user["group"]
     facultie = user["facultie"]
-    collection_schedule = dbname[f"ТЕСТ Расписание {facultie}"]
+    collection_schedule = dbname[f"Расписание {facultie}"]
     schedule = collection_schedule.find_one({"group_name": group})["schedule"]
     for item in schedule:
         if item["date"] == date:
@@ -25,7 +25,7 @@ def get_all(user_id: int):
     user = collection_user.find_one({"user_id": user_id})
     group = user["group"]
     facultie = user["facultie"]
-    collection_schedule = dbname[f"ТЕСТ Расписание {facultie}"]
+    collection_schedule = dbname[f"Расписание {facultie}"]
     schedule: list = collection_schedule.find_one({"group_name": group})["schedule"]
     sch = []
     if schedule:
