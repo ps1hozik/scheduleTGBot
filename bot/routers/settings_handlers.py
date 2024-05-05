@@ -13,8 +13,7 @@ for path in paths:
     sys.path.insert(1, os.path.join(sys.path[0], path))
 
 from user import get_user
-from download import download
-from upload import upload
+
 
 from keyboards.common_keyboards import (
     build_facultie_kb,
@@ -47,22 +46,3 @@ async def handle_course_number(message: types.Message):
         text="⚙️Настройка группы.\nВыберите факультет:",
         reply_markup=build_facultie_kb(),
     )
-
-
-@router.message(Command("admin_download"))
-async def download_schedule(message: types.Message):
-    if message.from_user.id == 616848146:
-        print("download()")
-        await message.answer(
-            text="download()",
-        )
-        download()
-        await asyncio.sleep(15)
-        print("upload()")
-
-        errors = upload()
-        await message.answer(
-            text=f"upload()\n{errors}",
-        )
-    else:
-        await message.delete()

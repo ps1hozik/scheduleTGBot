@@ -1,9 +1,4 @@
 python-dotenv
-openpyxl
-pandas
-xlrd
-requests
-bs4
 pymongo
-apscheduler
 aiogram
+pytz

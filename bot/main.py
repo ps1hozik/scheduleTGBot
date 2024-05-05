@@ -1,8 +1,6 @@
 import asyncio
 import logging
 
-# from apscheduler.schedulers.asyncio import AsyncIOScheduler
-
 
 from aiogram import Bot
 from aiogram import Dispatcher
@@ -22,15 +20,6 @@ paths = ["schedule"]
 for path in paths:
     sys.path.insert(1, os.path.join(sys.path[0], path))
 
-# from download import download
-# from upload import upload
-
-
-# async def schedule_upload():
-#     download()
-#     await asyncio.sleep(10)
-#     upload()
-
 
 async def main():
     dp = Dispatcher()
@@ -41,9 +30,7 @@ async def main():
         token=os.getenv("BOT_TOKEN"),
         parse_mode=ParseMode.HTML,
     )
-    # scheduler = AsyncIOScheduler()
-    # scheduler.add_job(schedule_upload, "cron", day_of_week="fri", hour=17 - 3)
-    # scheduler.start()
+
     await dp.start_polling(bot)
 
 
