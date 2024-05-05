@@ -63,11 +63,11 @@ def print_lessons(lessons: list, day: str, date: str):
 
 
 def get_groups(facultie: str, course: int):
-    collection_group = dbname[f"ТЕСТ Группы {facultie}"]
+    collection_group = dbname[f"Группы {facultie}"]
     cursor = collection_group.find({"course": str(course)}).sort("_id", 1)
     return [doc["group_name"] for doc in cursor]
 
 
 def get_subgroups(facultie: str, group: str):
-    collection_group = dbname[f"ТЕСТ Группы {facultie}"]
+    collection_group = dbname[f"Группы {facultie}"]
     return collection_group.find_one({"group_name": group})["sub_groups"]
