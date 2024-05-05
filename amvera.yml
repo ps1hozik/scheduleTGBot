@@ -1,0 +1,11 @@
+---
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: 3.11.5
+build:
+  requirementsPath: requirements.txt
+run:
+  scriptName: bot/main.py
+  containerPort: 80
