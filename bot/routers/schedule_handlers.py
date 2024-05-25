@@ -1,4 +1,5 @@
 from aiogram import F, Router, types
+from aiogram.filters import Command
 import os
 import sys
 from datetime import timedelta, datetime
@@ -9,7 +10,7 @@ paths = ["../keyboards", "../schedule", "../database"]
 for path in paths:
     sys.path.insert(1, os.path.join(sys.path[0], path))
 
-from scripts import get_all, get_one_day
+from scripts import get_all, get_one_day, find_teacher
 
 
 from keyboards.common_keyboards import (
@@ -60,6 +61,24 @@ async def handle_all_week(message: types.Message):
     if not schedule:
         await message.answer(
             text="На этой недели расписания нет 😽",
+            reply_markup=main_kb(),
+        )
+    else:
+        for item in schedule:
+            await message.answer(
+                text=item,
+                reply_markup=main_kb(),
+            )
+
+
+@router.message(Command("find"))
+async def handle_find_teacher(message: types.Message):
+
+    teacher_name = message.text.split(maxsplit=1)[1]
+    schedule = find_teacher(teacher_name)
+    if not schedule:
+        await message.answer(
+            text=f"Не нашли расписание для <i><u>{teacher_name}</u></i>",
             reply_markup=main_kb(),
         )
     else:
