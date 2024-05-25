@@ -74,16 +74,22 @@ async def handle_all_week(message: types.Message):
 @router.message(Command("find"))
 async def handle_find_teacher(message: types.Message):
 
-    teacher_name = message.text.split(maxsplit=1)[1]
-    schedule = find_teacher(teacher_name)
-    if not schedule:
-        await message.answer(
-            text=f"Не нашли расписание для <i><u>{teacher_name}</u></i>",
-            reply_markup=main_kb(),
-        )
-    else:
-        for item in schedule:
+    parts = message.text.split(maxsplit=1)[1]
+    if len(parts) > 1:
+        teacher_name = parts[1]
+        schedule = find_teacher(teacher_name)
+        if not schedule:
             await message.answer(
-                text=item,
+                text=f"Не нашли расписание для <i><u>{teacher_name}</u></i>",
                 reply_markup=main_kb(),
             )
+        else:
+            for item in schedule:
+                await message.answer(
+                    text=item,
+                    reply_markup=main_kb(),
+                )
+    else:
+        await message.reply(
+            "Пожалуйста, укажите ФИО. Например: /find_teacher Иванов И И"
+        )
