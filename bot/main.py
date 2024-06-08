@@ -9,12 +9,10 @@ from aiogram.enums import ParseMode
 
 from dotenv import load_dotenv
 import os
-import sys
 
 load_dotenv()
 
 from routers import router as main_router
-
 
 
 async def main():

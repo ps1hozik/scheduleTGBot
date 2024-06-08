@@ -55,12 +55,28 @@ async def handle_tommorow(message: types.Message):
     )
 
 
+def get_date_of_weekday() -> str:
+    current_utc_time = datetime.now(pytz.timezone("UTC"))
+    moscow_timezone = pytz.timezone("Europe/Moscow")
+    moscow_time = current_utc_time.astimezone(moscow_timezone)
+
+    now = moscow_time.now()
+    weekday = now.weekday()
+    if 0 <= weekday <= 3:
+        start = now - timedelta(days=weekday)
+    else:
+        start = now + timedelta(days=(7 - weekday))
+    end = start + timedelta(days=5)
+    return start.strftime("%d.%m"), end.strftime("%d.%m")
+
+
 @router.message(F.text == ButtonText.ALL_WEEK)
 async def handle_all_week(message: types.Message):
     schedule = get_all(message.from_user.id)
     if not schedule:
+        start, end = get_date_of_weekday()
         await message.answer(
-            text="На этой недели расписания нет 😽",
+            text=f"С {start} по {end} расписания нет 😽",
             reply_markup=main_kb(),
         )
     else:

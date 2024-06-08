@@ -3,10 +3,23 @@ import sys
 
 sys.path.insert(1, os.path.join(sys.path[0], "../database"))
 from config import get_database
-
+from datetime import date, timedelta, datetime
 
 dbname = get_database()
 collection_user = dbname["users"]
+
+
+def match_date(lessons_date: date):
+    now = date.today()
+    weekday = now.weekday()
+    new_weekday = lessons_date.weekday()
+    if 0 <= weekday <= 3:
+        monday = now - timedelta(days=weekday)
+    else:
+        monday = now + timedelta(days=(7 - weekday))
+
+    new_monday = lessons_date - timedelta(days=new_weekday)
+    return monday == new_monday
 
 
 def get_one_day(user_id: int, date: str):
@@ -17,7 +30,7 @@ def get_one_day(user_id: int, date: str):
     schedule = collection_schedule.find_one({"group_name": group})["schedule"]
     for item in schedule:
         if item["date"] == date:
-            return print_lessons(item["lessons"], item["day"], item["date"])
+            return formatting_lessons(item["lessons"], item["day"], item["date"])
     return None
 
 
@@ -29,14 +42,18 @@ def get_all(user_id: int):
     schedule: list = collection_schedule.find_one({"group_name": group})["schedule"]
     sch = []
     if schedule:
-        if schedule[0]["day"] == "Суббота":
-            del schedule[0]
-        for item in schedule:
-            sch.append(print_lessons(item["lessons"], item["day"], item["date"]))
+        lessons_date = schedule[-1]["date"]
+        if match_date(datetime.strptime(lessons_date, "%Y-%m-%d").date()):
+            if schedule[0]["day"] == "Суббота":
+                del schedule[0]
+            for item in schedule:
+                sch.append(
+                    formatting_lessons(item["lessons"], item["day"], item["date"])
+                )
     return sch
 
 
-def print_lessons(lessons: list, day: str, date: str):
+def formatting_lessons(lessons: list, day: str, date: str):
     while lessons and lessons[-1]["lesson"] is None:
         lessons.pop()
     space = "⠀" * 2
@@ -139,5 +156,5 @@ def find_teacher(teacher_name: str):
 
     sch = []
     for item in lst:
-        sch.append(print_lessons(item["lessons"], item["day"], item["date"]))
+        sch.append(formatting_lessons(item["lessons"], item["day"], item["date"]))
     return sch
