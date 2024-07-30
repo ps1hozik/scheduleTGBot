@@ -1,4 +1,8 @@
-python-dotenv
+bs4
+openpyxl
+pandas
 pymongo
-aiogram
+python-dotenv
 pytz
+requests
+aiogram
